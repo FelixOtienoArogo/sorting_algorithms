@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "sort.h"
+#include <stdbool.h>
 
 /**
  *bubble_sort - sorts an array of integers using the Bubble sort
@@ -14,6 +15,7 @@ void bubble_sort(int *array, size_t size)
 {
 int temp;
 size_t i, j;
+bool swap;
 
 for (i = 0; i < size - 1; i++)
 {
@@ -24,8 +26,11 @@ if (array[j] > array[j + 1])
 temp = array[j];
 array[j] = array[j + 1];
 array[j + 1] = temp;
+swap = true;
 print_array(array, size);
 }
 }
+if (swap == false)
+break;
 }
 }
