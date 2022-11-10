@@ -13,7 +13,7 @@
  */
 void selection_sort(int *array, size_t size)
 {
-int temp;
+int temp, compare, min_index;
 size_t i, j;
 bool swap;
 
@@ -22,18 +22,23 @@ return;
 
 for (i = 0; i < size - 1; i++)
 {
+compare = array[i];
+swap = false;
 for (j = i + 1; j < size; j++)
 {
-if (array[i] > array[j])
+if (compare > array[j])
 {
-temp = array[i];
-array[i] = array[j];
-array[j] = temp;
+compare = array[j];
+min_index = j;
 swap = true;
 }
 }
+if (swap == true)
+{
+temp = array[i];
+array[i] = compare;
+array[min_index] = temp;
 print_array(array, size);
-if (swap == false)
-break;
+}
 }
 }
