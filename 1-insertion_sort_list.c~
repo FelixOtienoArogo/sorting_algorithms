@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "sort.h"
+#include <stdbool.h>
+
+/**
+ *insertion_sort_list - sorts a doubly linked list of integers
+ *
+ *@list: the doubly linked list to be sorted
+ *
+ *Return: nothing
+ */
+void insertion_sort_list(listint_t **list)
+{
+listint_t *temp;
+listint_t *prev_temp;
+listint_t *next_temp;
+
+if (list == NULL || *list == NULL)
+return;
+
+temp = *list;
+temp = temp->next;
+
+while (temp != NULL)
+{
+prev_temp = temp;
+temp = temp->next;
+
+while (prev_temp->prev != NULL)
+{
+next_temp = prev_temp->prev;
+
+if (next_temp->n > prev_temp->n)
+{
+next_temp->next = prev_temp->next;
+
+if (prev_temp->next != NULL)
+prev_temp->next->prev = next_temp;
+
+prev_temp->next = next_temp;
+prev_temp->prev = next_temp->prev;
+
+if (prev_temp->prev == NULL)
+*list = prev_temp;
+
+else
+next_temp->prev->next = prev_temp;
+next_temp->prev = prev_temp;
+print_list(*list);
+}
+else
+break;
+}
+}
+}
