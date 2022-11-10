@@ -30,9 +30,9 @@ temp = array[i];
 array[i] = array[j];
 array[j] = temp;
 swap = true;
+}
+}
 print_array(array, size);
-}
-}
 if (swap == false)
 break;
 }
