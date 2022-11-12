@@ -1,79 +1,83 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "sort.h"
-#include <stdbool.h>
 
 /**
- *quick_sort - sorts an array of integers using the Selection sort
- *
- *@array: the array to be sorted
- *@size: the size of the array
- *
- *Return: nothing
- */
+ * quick_sort - Super fast and impractical sorting function
+ * @array: The array to be sorted
+ * @size: size of the array
+ **/
 void quick_sort(int *array, size_t size)
 {
-int high;
-int low;
+	int *whole_array;
+	size_t full_size;
 
-if (array == NULL)
-return;
-
-low = 0;
-high = size - 1;
-quick_sort_real(array, low, high, size);
+	if (array == NULL)
+		return;
+	whole_array = &array[0];
+	full_size = size;
+	quick_sort_really(array, size, whole_array, full_size);
 }
 
 /**
- *quick_sort_real - sorts an array of integers using the Selection sort
- *
- *@array: the array to be sorted 
- *@size: the size of the array 
- *
- *Return: nothing
- */
-void quick_sort_real(int *array, int low, int high, size_t size)
+ * quick_sort_really - Used to call the partitioner to get subarrays
+ * @array: The array (sub array of last call) to be sorted
+ * @size: Size of the array variable
+ * @whole_array: The whole array that is to be sorted
+ * @full_size: The full size of the array that's being sorted originally
+ **/
+void quick_sort_really(int *array, size_t size, int *whole_array,
+		       size_t full_size)
 {
-if (low < high)
-{
-/* par is partitioning index, and the partition is at the right place*/
-int par = partition(array, low, high);
+	size_t part;
 
-print_array(array, size);
-quick_sort_real(array, low, par - 1, size);
-quick_sort_real(array, par + 1, high, size);
-}
+	part = 0;
+
+	if (size > 1)
+	{
+		part = partitioner(array, size, whole_array, full_size);
+		quick_sort_really(&array[0], part, whole_array, full_size);
+		quick_sort_really(&array[part], size - part, whole_array, full_size);
+	}
+
 }
 
 /**
- *partition- partition the array for sorting
- *
- *@low: the low index
- *@high: the high index
- *
- *Return: right index
- */
-int partition(int *array, int low, int high)
+ * partitioner - Finds where to split the array and swaps larger items right
+ * and smaller items left
+ * @array: Size of the array (sub array of last call) being sorted
+ * @size: Size of the array variable
+ * @whole_array: The whole array that was being sorted
+ * @full_size: Full size of the original array
+ * Return: The index where the array should be split into two subarrays
+ **/
+size_t partitioner(int *array, size_t size, int *whole_array, size_t full_size)
 {
-int pivot, i, temp;
-int j;
+	int pivot;
+	long front;
+	long end;
+	int temp;
 
-pivot = array[high];
-i = low -1;
+	pivot = array[size - 1];
+	front = -1;
+	end = size;
 
-for (j = low; j <= high - 1; j++)
-{
-if (array[j] < pivot)
-{
-i++;
-temp = array[i];
-array[i] = array[j];
-array[j] = temp;
-}
-}
-temp = array[i + 1];
-array[i + 1] = array[high];
-array[high] = temp;
 
-return (i + 1);
+	while (1)
+	{
+		do {
+			front++;
+		} while (array[front] < pivot);
+		do {
+			end--;
+		} while (array[end] > pivot);
+
+		if (front >= end)
+		{
+			return ((size_t) front);
+		}
+		temp = array[front];
+		array[front] = array[end];
+		array[end] = temp;
+		print_array(whole_array, full_size);
+	}
+	return (end);
 }
