@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "sort.h"
+#include <stdbool.h>
+
+/**
+ *quick_sort - sorts an array of integers using the Selection sort
+ *
+ *@array: the array to be sorted
+ *@size: the size of the array
+ *
+ *Return: nothing
+ */
+void quick_sort(int *array, size_t size)
+{
+int high;
+int low;
+
+if (array == NULL)
+return;
+
+low = 0;
+high = size - 1;
+quick_sort_real(array, low, high, size);
+}
+
+/**
+ *quick_sort_real - sorts an array of integers using the Selection sort
+ *
+ *@array: the array to be sorted 
+ *@size: the size of the array 
+ *
+ *Return: nothing
+ */
+void quick_sort_real(int *array, int low, int high, size_t size)
+{
+if (low < high)
+{
+/* par is partitioning index, and the partition is at the right place*/
+int par = partition(array, low, high);
+
+print_array(array, size);
+quick_sort_real(array, low, par - 1, size);
+quick_sort_real(array, par + 1, high, size);
+}
+}
+
+/**
+ *partition- partition the array for sorting
+ *
+ *@low: the low index
+ *@high: the high index
+ *
+ *Return: right index
+ */
+int partition(int *array, int low, int high)
+{
+int pivot, i, temp;
+int j;
+
+pivot = array[high];
+i = low -1;
+
+for (j = low; j <= high - 1; j++)
+{
+if (array[j] < pivot)
+{
+i++;
+temp = array[i];
+array[i] = array[j];
+array[j] = temp;
+}
+}
+temp = array[i + 1];
+array[i + 1] = array[high];
+array[high] = temp;
+
+return (i + 1);
+}
