@@ -1,4 +1,7 @@
 #include "sort.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
 
 /**
  * quick_sort - Super fast and impractical sorting function
